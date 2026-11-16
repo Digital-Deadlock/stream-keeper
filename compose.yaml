@@ -1,0 +1,24 @@
+services:
+  stream-keeper:
+    image: ghcr.io/digital-deadlock/stream-keeper:latest
+    container_name: frigate-stream-keeper
+    restart: unless-stopped
+    init: true
+    env_file:
+      - .env
+    networks:
+      - frigate
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    tmpfs:
+      - /tmp:size=1m,mode=1777
+    user: "65532:65532"
+
+networks:
+  frigate:
+    external: true
+    name: frigate
+
